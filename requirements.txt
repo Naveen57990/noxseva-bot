@@ -7,4 +7,5 @@ sounddevice
 scipy
 whisper
 twilio
+playsound
 
