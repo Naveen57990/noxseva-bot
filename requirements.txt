@@ -6,4 +6,5 @@ langdetect
 sounddevice
 scipy
 whisper
+twilio
 
