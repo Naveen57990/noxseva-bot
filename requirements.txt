@@ -5,7 +5,7 @@ gtts
 langdetect
 sounddevice
 scipy
-whisper
+openai-whisper
 twilio
 playsound
 
