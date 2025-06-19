@@ -3,9 +3,5 @@ groq
 python-dotenv
 gtts
 langdetect
-sounddevice
-scipy
-git+https://github.com/openai/whisper.git
 twilio
-playsound==1.2.2
 
