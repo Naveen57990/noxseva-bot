@@ -7,5 +7,5 @@ sounddevice
 scipy
 openai-whisper
 twilio
-playsound
+playsound==1.2.2
 
