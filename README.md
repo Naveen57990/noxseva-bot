@@ -1,6 +1,6 @@
-# NVSevaBot 🤖🇮🇳
+# NOXSevaBot 🤖🇮🇳
 
-NVSevaBot is a multilingual AI voice bot built for people without internet access. It can:
+NOXsevaBot is a multilingual AI voice bot built for people without internet access. It can:
 
 - Understand speech via Whisper
 - Generate responses using Groq (LLaMA model)
@@ -17,7 +17,7 @@ NVSevaBot is a multilingual AI voice bot built for people without internet acces
 - GitHub + Render for hosting
 
 ### 🌐 Purpose
-Built to provide AI support in health, education, and general awareness through phone calls.
+Built to provide AI support in health, education, and general awareness through phone calls and for those with lack of internet connection.
 
 ---
 
