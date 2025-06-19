@@ -5,7 +5,7 @@ gtts
 langdetect
 sounddevice
 scipy
-openai-whisper
+whisper
 twilio
 playsound==1.2.2
 
