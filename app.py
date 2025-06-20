@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from twilio.twiml.voice_response import VoiceResponse, Gather
 import os
-from groq import Groq  # Make sure this is in your requirements.txt
+from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,53 +12,53 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 @app.route("/voice", methods=["POST"])
 def voice():
-    # Ask the user to say something
     response = VoiceResponse()
-    gather = Gather(input="speech", timeout=5, speechTimeout="auto", action="/ai-reply", method="POST")
-    gather.say("Hello! This is NVSevaBot. How can I help you today?")
+    gather = Gather(input="speech", timeout=5, speechTimeout="auto", action="/select-language", method="POST")
+    gather.say("Welcome to NVSevaBot. Please say English, Hindi, or Telugu to continue.", language="en-IN")
     response.append(gather)
-    response.redirect("/voice")  # If no speech input, repeat
+    response.redirect("/voice")
+    return Response(str(response), mimetype="application/xml")
+
+@app.route("/select-language", methods=["POST"])
+def select_language():
+    user_choice = request.form.get("SpeechResult", "").strip().lower()
+    
+    # Decide language code
+    lang_map = {
+        "english": "en",
+        "hindi": "hi",
+        "telugu": "te"
+    }
+    selected_lang = lang_map.get(user_choice, "en")  # default to English
+
+    response = VoiceResponse()
+    gather = Gather(input="speech", timeout=5, speechTimeout="auto", action=f"/ai-reply?lang={selected_lang}", method="POST")
+    gather.say("How can I help you today?", language="en-IN")
+    response.append(gather)
+    response.redirect("/voice")
     return Response(str(response), mimetype="application/xml")
 
 @app.route("/ai-reply", methods=["POST"])
 def ai_reply():
     user_input = request.form.get("SpeechResult", "")
-    
-    # Call Groq API to generate a reply
+    selected_lang = request.args.get("lang", "en")
+
     try:
         chat_response = client.chat.completions.create(
-            model="llama3-70b-8192",  # Or llama3 or any model supported
+            model="llama3-8b-8192",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": f"You are a helpful assistant. Reply in {selected_lang}."},
                 {"role": "user", "content": user_input}
             ]
         )
         ai_message = chat_response.choices[0].message.content
     except Exception as e:
-        print(f"Groq Error: {e}")  
         ai_message = "Sorry, I had a problem generating a response."
 
-    # Respond to user
     response = VoiceResponse()
-    response.say(ai_message)
+    response.say(ai_message, language="en-IN")  # TTS only supports en-IN for now via Twilio
     response.redirect("/voice")
     return Response(str(response), mimetype="application/xml")
-@app.route("/", methods=["GET"])
-def home():
-    return "✅ NVSevaBot is live!"
 
-@app.route("/test", methods=["GET"])
-def test_groq():
-    try:
-        response = client.chat.completions.create(
-            model="llama3-70b-8192",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "What is the capital of India?"}
-            ]
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"Groq test error: {e}"
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
