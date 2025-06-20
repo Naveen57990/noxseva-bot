@@ -13,7 +13,7 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 @app.route("/")
 def index():
-    return "NVSevaBot is live and waiting for Twilio calls."
+    return "NOXSevaBot is live and waiting for Twilio calls."
 
 @app.route("/voice", methods=["POST"])
 def voice():
@@ -29,7 +29,7 @@ def voice():
         action="/ai-reply",
         method="POST"
     )
-    gather.say("Hello! This is NVSevaBot. How can I help you today?", language="en-IN")
+    gather.say("Hello! This is NOXSevaBot. How can I help you today?", language="en-IN")
     response.append(gather)
 
     # If nothing is said or pressed, repeat
@@ -55,7 +55,7 @@ def ai_reply():
         chat_response = client.chat.completions.create(
             model="llama3-8b-8192",  # or mixtral if supported
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": ""You are a friendly, respectful, and helpful assistant that gives short, clear answers in a calm tone. Avoid long explanations. Speak in simple, easy-to-understand language."."},
                 {"role": "user", "content": speech_input}
             ]
         )
