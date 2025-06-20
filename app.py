@@ -55,7 +55,7 @@ def ai_reply():
         chat_response = client.chat.completions.create(
             model="llama3-8b-8192",  # or mixtral if supported
             messages=[
-                {"role": "system", "content": ""You are a friendly, respectful, and helpful assistant that gives short, clear answers in a calm tone. Avoid long explanations. Speak in simple, easy-to-understand language."."},
+                {"role": "system", "content": "You are a friendly, respectful, and helpful assistant that gives short, clear answers in a calm tone. Avoid long explanations. Speak in simple, easy-to-understand language.",
                 {"role": "user", "content": speech_input}
             ]
         )
