@@ -43,6 +43,22 @@ def ai_reply():
     response.say(ai_message)
     response.redirect("/voice")
     return Response(str(response), mimetype="application/xml")
+@app.route("/", methods=["GET"])
+def home():
+    return "✅ NVSevaBot is live!"
 
+@app.route("/test", methods=["GET"])
+def test_groq():
+    try:
+        response = client.chat.completions.create(
+            model="mixtral-8x7b-32768",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "What is the capital of India?"}
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Groq test error: {e}"
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
