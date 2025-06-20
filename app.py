@@ -35,6 +35,7 @@ def ai_reply():
         )
         ai_message = chat_response.choices[0].message.content
     except Exception as e:
+        print(f"Groq Error: {e}")  
         ai_message = "Sorry, I had a problem generating a response."
 
     # Respond to user
