@@ -27,7 +27,7 @@ def ai_reply():
     # Call Groq API to generate a reply
     try:
         chat_response = client.chat.completions.create(
-            model="mixtral-8x7b-32768",  # Or llama3 or any model supported
+            model="llama3-70b-8192",  # Or llama3 or any model supported
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": user_input}
@@ -51,7 +51,7 @@ def home():
 def test_groq():
     try:
         response = client.chat.completions.create(
-            model="mixtral-8x7b-32768",
+            model="llama3-70b-8192",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": "What is the capital of India?"}
