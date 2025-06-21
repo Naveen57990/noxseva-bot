@@ -66,6 +66,9 @@ def ai_reply():
     response.say(ai_text, language="en-IN")
     response.redirect("/voice")  # Continue the conversation
     return Response(str(response), mimetype="application/xml")
+@app.route("/ping")
+def ping():
+    return "I am alive!", 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
