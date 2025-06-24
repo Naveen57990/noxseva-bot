@@ -69,6 +69,16 @@ def ai_reply():
 @app.route("/ping")
 def ping():
     return "I am alive!", 200
+@app.route("/test")
+def test_groq():
+    try:
+        response = client.chat.completions.create(
+            model="llama3-8b-8192",  # Ensure this model is available in your Groq plan
+            messages=[{"role": "user", "content": "Who are you?"}]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Groq test error: {str(e)}"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
